@@ -1,0 +1,74 @@
+-- https://scriptblox.com/u/zxcv
+  -- educate by yourself 🌹
+local notify = loadstring(game:HttpGet("https://pastebin.com/raw/wiPVTwLB"))()
+notify:SendNotification("success", "cframe by lightgray2", 1)
+
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wizard"))()
+
+local main_window = lib:NewWindow("copy cframe")
+local main_section = main_window:NewSection("[main]")
+
+main_section:CreateButton("copy[1]", function()
+    local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
+    setclipboard(("%0.14f, %0.14f, %0.14f"):format(hrp.Position.X, hrp.Position.Y, hrp.Position.Z))
+end)
+
+main_section:CreateButton("copy[2]", function()
+    local hrp = game.Players.LocalPlayer.Character.HumanoidRootPootPart
+    local pos = hrp.Position
+    setclipboard(string.format("%0.6f, %0.6f, %0.6f", pos.X, pos.Y, pos.Z))
+end)
+
+local terminal_section = main_window:NewSection("[terminal]")
+
+terminal_section:CreateTextbox("normal cframe", function(text)
+    local success, result = pcall(function()
+        local player = game.Players.LocalPlayer
+        if not player or not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then return end
+        local hrp = player.Character.HumanoidRootPart
+        local user_cframe = loadstring("return CFrame.new(" .. text .. ")")() -- input sigma
+        hrp.CFrame = user_cframe
+        notify:SendNotification("success", "teleported!", 0.50)
+    end)
+    if not success then
+        notify:SendNotification("error", "syntax error", 2) -- invalid path except for cframe 👍
+    end
+end)
+
+terminal_section:CreateTextbox("bypass cframe", function(text)
+    local success, result = pcall(function()
+        local player = game.Players.LocalPlayer
+        local char = player.Character or player.CharacterAdded:Wait()
+        local root = char:WaitForChild("HumanoidRootPart")
+
+        local function bypass_tp(target_pos, steps)
+            local start_pos = root.Position
+            for i = 1, steps do
+                local progress = i / steps
+                local new_pos = start_pos:Lerp(target_pos, progress)
+                root.CFrame = CFrame.new(new_pos) * CFrame.Angles(0, math.rad(math.random(-1, 1)), 0)
+                task.wait(0.0025 + math.random() * 0.002)
+            end
+            notify:SendNotification("success", "bypassed tp!", 1) -- bypass tp is a test, not it would likely bypsss AC completely.
+        end
+
+        local target = loadstring("return Vector3.new(" .. text .. ")")()
+        bypass_tp(target, 7)
+    end)
+    if not success then
+        notify:SendNotification("error", "syntax error", 2)
+    end
+end)
+
+local extras_window = lib:NewWindow("")
+local extras_section = extras_window:NewSection("[extras]")
+
+extras_section:CreateButton("button", function()
+    print("hi")
+end)
+
+extras_section:CreateButton("og script", function()
+    loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Script-Tool-Copy-Position-DevHub-Support-PC-And-Mobile-17330"))()
+end)
+
+notify:SendNotification("info", "https://scriptblox/u/zxcv", 5) -- hi🥺
