@@ -1,0 +1,105 @@
+-- crack from by https://scriptblox/u/zxcv 🥀🥀💔
+--[[ https://scriptblox.com/u/Dat4hackerzzzz --]]
+local function setup(whitelistbool)
+    loadstring(game:HttpGet("https://techhub.group/scripts/DAT4HACKERR_HUB/ssd.lua"))()
+   end
+   
+   local identifier = "dat4hackerr_hub"
+   
+   local HttpService = game:GetService("HttpService")
+   local OrionLib = loadstring(game:HttpGet(('https://gist.githubusercontent.com/Fynn347/3f265f24218aba3fe35a292875517360/raw/3541d0a169377e905a6adf3238306077621f0023/DSsada')))()
+   local Window = OrionLib:MakeWindow({Name = identifier, HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+   local KeyTab = Window:MakeTab({
+       Name = identifier,
+       Icon = "rbxassetid://4483345998",
+       PremiumOnly = false
+   })
+   
+   local KeySec = KeyTab:AddSection({
+       Name = "Key System"
+   })
+   
+   local loadUpLabel = KeySec:AddLabel("Loading Key System")
+   
+   local loadUpResponse = game:HttpGet("https://techhub.group/script_api/check_key?identifier="..identifier.."&client_id="..game:GetService("RbxAnalyticsService"):GetClientId(), true)
+   local loadRightUpResponse = HttpService:JSONDecode(loadUpResponse)
+   loadUpLabel:Set("Loaded up successfully")
+   
+   local goOn = true
+   
+   if loadRightUpResponse["whitelisted"] or loadRightUpResponse["blacklisted"] then
+       goOn = false
+       if loadRightUpResponse["whitelisted"] then
+           loadUpLabel:Set("You are whitelisted. It will start soon")
+   
+           KeyTab:AddButton({
+               Name = "Copy discord",
+               Callback = function()
+                   setclipboard("https://techhub.group/dc")
+                   game:GetService("StarterGui"):SetCore("SendNotification", {Title="Copied!", Text="Copied the discord invite", Duration=3})
+               end
+           }) 
+           warn("Whitelisted")
+           setup(true)
+       elseif loadRightUpResponse["blacklisted"] then
+           loadUpLabel:Set("You are blacklisted. It will not start")
+   
+           KeyTab:AddButton({
+               Name = "Copy discord",
+               Callback = function()
+                   setclipboard("https://discord.gg/SrfMWYETNj")
+                   game:GetService("StarterGui"):SetCore("SendNotification", {Title="Copied!", Text="Copied the discord invite", Duration=3})
+               end
+           }) 
+           warn("Blacklisted")
+           wait(3.5)
+           OrionLib:Destroy()
+       end
+   end
+   
+   if goOn == true then
+       local checkingKey = false
+       loadUpLabel:Set("Please enter ur key")
+   
+       KeySec:AddTextbox({
+           Name = "Enter key here",
+           Default = "",
+           TextDisappear = false,
+           Callback = function(Value)
+               if checkingKey == false then
+                   checkingKey = true
+                   loadUpLabel:Set("Checking key. Please wait")
+   
+                   local checkKeyResponse = game:HttpGet("https://techhub.group/script_api/check_key?identifier="..identifier.."&key="..string.gsub(Value, "%s+", "").."&client_id="..game:GetService("RbxAnalyticsService"):GetClientId(), true)
+                   local norResponse = HttpService:JSONDecode(checkKeyResponse)
+                   if norResponse["key_valid"] == true then
+                       loadUpLabel:Set("Key is valid. It will start!")
+                       wait(1)
+                       warn("Key richtig")
+                       setup()
+                   else
+                       warn("Key falsch")
+                       loadUpLabel:Set("Key is invalid. Please try again!")
+   
+                       checkingKey = false
+                   end
+               end
+           end
+       })
+       KeyTab:AddButton({
+           Name = "Get key",
+           Callback = function()
+               setclipboard("https://discord.gg/SrfMWYETNj")
+               game:GetService("StarterGui"):SetCore("SendNotification", {Title="Copied!", Text="Copied the key link", Duration=3})
+           end
+       })
+   
+       KeyTab:AddButton({
+           Name = "Copy discord",
+           Callback = function()
+               setclipboard("https://discord.gg/SrfMWYETNj")
+               game:GetService("StarterGui"):SetCore("SendNotification", {Title="Copied!", Text="Copied the discord invite", Duration=3})
+           end
+       })
+   
+   end
